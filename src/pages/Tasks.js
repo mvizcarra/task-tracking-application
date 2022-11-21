@@ -1,6 +1,8 @@
-
-import TaskList from '../components/TaskList';
-import BacklogList from '../components/BacklogList';
+import { useState, useEffect } from "react";
+import NewTaskModal from "../components/createNew/NewTaskModal";
+import TaskList from '../components/displayLists/TaskList';
+import BacklogList from '../components/displayLists/BacklogList';
+import axiosInstance from "../axios";
 
 function TasksPage(){
 
@@ -15,80 +17,79 @@ function TasksPage(){
             id: 2,
             name: "practice algorithims",
             description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
             status: "completed"
         },
         {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "completed"
-        },
-        {
-            id: 2,
+            id: 3,
             name: "practice algorithims",
             description: "solve leetcode question on algorithms",
             status: "progress"
         },
         {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "progress"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "today"
-        },
-        {
-            id: 2,
+            id: 4,
             name: "practice algorithims",
             description: "solve leetcode question on algorithms",
             status: "today"
         }
     ]
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadedTasks, setLoadedTasks] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [newTaskCreated, setNewTaskCreated] = useState(false);
+
     const BACKLOG_TASKS = [];
     const TODAYS_TASKS = [];
     const PROGRESS_TASKS = [];
     const COMPLETED_TASKS = [];
+
+    function openModalHandler(){
+        setModalIsOpen(true);
+    }
+
+    function closeModalHandler(){
+        setModalIsOpen(false);
+    }
+
+    function confirmHandler(){
+        setNewTaskCreated(true);
+        console.log("confirm handler has been hit")
+        console.log("new tast created", newTaskCreated)
+        closeModalHandler();
+    }
+
+
+
+    useEffect(() => {
+        setIsLoading(true);
+        axiosInstance.get('/tasks.json')
+          .then((response) => {
+            const tasks = [];
+    
+            for (const key in response.data) {
+              const task = {
+                id: key,
+                ...response.data[key]
+              };
+    
+              tasks.push(task);
+            }
+
+            console.log("rendered", newTaskCreated);
+    
+            setIsLoading(false);
+            setLoadedTasks(tasks);
+            setNewTaskCreated(false);
+          });
+      }, [newTaskCreated]);
+    
+    //   if (isLoading) {
+    //     return (
+    //       <section>
+    //         <p>Loading...</p>
+    //       </section>
+    //     );
+    //   }
 
     function sortTasks(tasks) { 
         
@@ -108,46 +109,61 @@ function TasksPage(){
         })
     }
 
+    sortTasks(loadedTasks);
     sortTasks(DUMMY_DATA);
 
 
 
     return ( 
     
-    <div className="h-full pt-2 text-center px-20">
-            {/* <span className='mt-10 text-xl font-semibold'>Tasks</span> */}
+
+    
+    <div className="h-full pt-2 text-center px-20 relative"> 
+
+         
             
-            <div className='grid grid-cols-3 h-[60%] mt-4'>
-                <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
-                    <text>Today's Tasks</text>
-                    <TaskList tasks={TODAYS_TASKS} />
-                </div>
-                <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
-                    <text>In Progress</text>
-                    <TaskList tasks={PROGRESS_TASKS} />
-                </div>
-                <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
-                    <text>Completed</text>
-                    <TaskList tasks={COMPLETED_TASKS} />
-                </div>
-            </div>
-            <div className='grid-cols-1 h-[30%]'>
-                <div className="border rounded h-full m-2 bg-white shadow overflow-auto">
-                    <div className='relative mb-2'>
-                        <text className=''>Backlog</text>
-                        <button className="absolute right-2 m-1 border rounded hover:bg-[#778DA9] hover:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
+                <div className='grid grid-cols-3 h-[60%] mt-4'>
+                    <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
+                        <div className='sticky top-0 mb-2 bg-white'>
+                            <text>Today's Tasks</text>
+                        </div>
+                        <TaskList tasks={TODAYS_TASKS} />
                     </div>
-                    <BacklogList tasks={BACKLOG_TASKS}/>
+                    <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
+                        <div className='sticky top-0 mb-2 bg-white'>
+                            <text>In Progress</text>
+                        </div>
+                        <TaskList tasks={PROGRESS_TASKS} />
+                    </div>
+                    <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
+                        <div className='sticky top-0 mb-2 bg-white'>
+                            <text>Completed</text>
+                        </div>
+                        <TaskList tasks={COMPLETED_TASKS} />
+                    </div>
                 </div>
-            </div>
+                <div className='grid-cols-1 h-[30%]'>
+                    <div className="border rounded h-full m-2 bg-white shadow relative overflow-auto">
+                        <div className='sticky top-0 mb-2 bg-white'>
+                            <text className=''>Backlog</text>
+                            <button className="absolute right-2 m-1 border rounded hover:bg-[#778DA9] hover:text-white" onClick={openModalHandler}>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        <BacklogList tasks={BACKLOG_TASKS}/>
+                        
+                    </div>
+                    
+                </div>
+
+                {modalIsOpen ? <NewTaskModal onCancel={closeModalHandler} onConfirm={confirmHandler} /> : null}
             
     </div>
     
     );
 }
+
 
 export default TasksPage;
