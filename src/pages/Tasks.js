@@ -33,7 +33,7 @@ function TasksPage(){
         }
     ]
 
-    const [isLoading, setIsLoading] = useState(true);
+    //const [isLoading, setIsLoading] = useState(true);
     const [loadedTasks, setLoadedTasks] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newTaskCreated, setNewTaskCreated] = useState(false);
@@ -61,7 +61,7 @@ function TasksPage(){
 
 
     useEffect(() => {
-        setIsLoading(true);
+        //setIsLoading(true);
         axiosInstance.get('/tasks.json')
           .then((response) => {
             const tasks = [];
@@ -77,7 +77,7 @@ function TasksPage(){
 
             console.log("rendered", newTaskCreated);
     
-            setIsLoading(false);
+            //setIsLoading(false);
             setLoadedTasks(tasks);
             setNewTaskCreated(false);
           });

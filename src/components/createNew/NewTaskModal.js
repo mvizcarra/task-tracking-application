@@ -22,12 +22,6 @@ function NewTaskModal(props){
             status: "backlog"
         }
 
-        const TEST_DATA = {
-            name: "testName",
-            description: "testDesc",
-            status: "backlog"
-        }
-
         props.onConfirm();
         console.log(TASK_DATA);
 
