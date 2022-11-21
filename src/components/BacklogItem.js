@@ -1,8 +1,6 @@
-
-
-function TaskItem(props) {
+function BacklogItem(props) {
     return (
-        <li className="flex flex-row flex-wrap w-full ">
+        <li className="flex flex-row flex-wrap w-1/3">
             <div className="border rounded m-1 w-full" >
                 <p>{props.name}</p>
             </div>
@@ -10,4 +8,4 @@ function TaskItem(props) {
     );
 }
 
-export default TaskItem;
+export default BacklogItem;
