@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import NewTaskModal from "../components/createNew/NewTaskModal";
+import NewTaskModal from "../components/crudOperations/NewTaskModal";
 import TaskList from '../components/displayLists/TaskList';
 import BacklogList from '../components/displayLists/BacklogList';
 import axiosInstance from "../axios";
+import Backdrop from "../components/layout/Backdrop";
+import DeleteModal from "../components/crudOperations/DeleteModal";
 
 function TasksPage(){
 
@@ -36,7 +38,10 @@ function TasksPage(){
     //const [isLoading, setIsLoading] = useState(true);
     const [loadedTasks, setLoadedTasks] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [newTaskCreated, setNewTaskCreated] = useState(false);
+    const [changeConfirmed, setChangeConfirmed] = useState(false);
+    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+
+    const [currentTask, setCurrentTask] = useState({});
 
     const BACKLOG_TASKS = [];
     const TODAYS_TASKS = [];
@@ -51,11 +56,24 @@ function TasksPage(){
         setModalIsOpen(false);
     }
 
-    function confirmHandler(){
-        setNewTaskCreated(true);
-        console.log("confirm handler has been hit")
-        console.log("new tast created", newTaskCreated)
+    function confirmChangeHandler(){
+        console.log("confirm change handler has been hit")
         closeModalHandler();
+        closeDeleteModalHandler();
+        setCurrentTask({});
+        setChangeConfirmed(true);
+    }
+
+    function openDeleteModalHandler(task){
+        console.log("open delete modal handler successfully passed up", task);
+        //currTask = task;
+        setDeleteModalIsOpen(true);
+        setCurrentTask(task);
+        console.log(currentTask);
+    }
+
+    function closeDeleteModalHandler(){
+        setDeleteModalIsOpen(false);
     }
 
 
@@ -75,13 +93,13 @@ function TasksPage(){
               tasks.push(task);
             }
 
-            console.log("rendered", newTaskCreated);
+            console.log("rendered change", changeConfirmed);
     
             //setIsLoading(false);
             setLoadedTasks(tasks);
-            setNewTaskCreated(false);
+            setChangeConfirmed(false);
           });
-      }, [newTaskCreated]);
+      }, [changeConfirmed]);
     
     //   if (isLoading) {
     //     return (
@@ -143,7 +161,7 @@ function TasksPage(){
                     </div>
                 </div>
                 <div className='grid-cols-1 h-[30%]'>
-                    <div className="border rounded h-full m-2 bg-white shadow relative overflow-auto">
+                    <div className="border rounded h-full m-2 bg-white shadow overflow-auto">
                         <div className='sticky top-0 mb-2 bg-white'>
                             <text className=''>Backlog</text>
                             <button className="absolute right-2 m-1 border rounded hover:bg-[#778DA9] hover:text-white" onClick={openModalHandler}>
@@ -152,13 +170,14 @@ function TasksPage(){
                                 </svg>
                             </button>
                         </div>
-                        <BacklogList tasks={BACKLOG_TASKS}/>
+                        <BacklogList tasks={BACKLOG_TASKS} openDeleteModal={openDeleteModalHandler}/>
                         
                     </div>
                     
                 </div>
 
-                {modalIsOpen ? <NewTaskModal onCancel={closeModalHandler} onConfirm={confirmHandler} /> : null}
+                {modalIsOpen ? <NewTaskModal onCancel={closeModalHandler} onConfirm={confirmChangeHandler} /> : null}
+                {deleteModalIsOpen && (<Backdrop><DeleteModal task={currentTask} onCancel={closeDeleteModalHandler} onConfirm={confirmChangeHandler}/></Backdrop>) }
             
     </div>
     
