@@ -20,9 +20,9 @@ function BacklogItem(props) {
     }
 
     return (
-        <li className={`flex flex-row flex-wrap ${descriptionIsOpen ? "w-full order-first" : "w-1/3"}`}>
+        <li className={` ${descriptionIsOpen ? "w-full flex order-first justify-center" : "w-1/3 flex flex-row flex-wrap"}`}>
             
-            <div className="border-2 border-gray-200 hover:border-gray-300 hover:font-semibold rounded m-1 w-full  px-10 items-center bg-white">
+            <div className={`${descriptionIsOpen ? "w-2/5 justify-center mx-20" : "w-full"} border-2 border-gray-200 hover:border-gray-300 hover:font-semibold rounded m-1  px-10 items-center bg-white`}>
                     
                 <div className="flex justify-between items-center">
                             
@@ -49,7 +49,7 @@ function BacklogItem(props) {
                 </div>
 
                 {descriptionIsOpen ? (
-                    <div className="border-top text-center py-4">{props.description}</div>
+                    <div className="border-top text-center py-4">{props.description ? props.description: "no additional description"}</div>
                 ) : null}
 
             </div>

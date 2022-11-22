@@ -51,7 +51,7 @@ function TaskItem(props) {
                 </div>
                 
                 {descriptionIsOpen ? (
-                    <div className="border-top text-center py-4">{props.description}</div>
+                    <div className="border-top text-center py-4">{props.description ? props.description: "no additional description"}</div>
                 ) : null}
 
             </div>

@@ -45,7 +45,7 @@ function NewTaskModal(props){
                 </div>
                 <div className="p-2">
                     <label className="p-2 block " htmlFor='description'>Description</label>
-                    <textarea className="p-2 border w-[90%] rounded-xl" rows='2' id='description' required placeholder="Enter Task Description" ref={descriptionInputRef}/>
+                    <textarea className="p-2 border w-[90%] rounded-xl" rows='2' id='description' placeholder="Enter Task Description" ref={descriptionInputRef}/>
                 </div>
                 <div className="p-2">
                     <button className="border rounded border-red-700 text-red-500 hover:bg-red-500 hover:text-white p-2 m-2" onClick={onCancelHandler}>Cancel</button>
