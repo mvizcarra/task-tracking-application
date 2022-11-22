@@ -3,7 +3,8 @@
 function BacklogItem(props) {
 
     function forwardHandler(){
-        console.log("forward handler hit");
+        console.log("forward handler hit", props.id);
+        props.forwardId(props);
     }
 
     function deleteButtonHandler(){
@@ -17,7 +18,7 @@ function BacklogItem(props) {
 
     return (
         <li className="flex flex-row flex-wrap w-1/3">
-            <div className="border-2 border-gray-200 hover:border-gray-300 hover:font-semibold rounded m-1 w-full flex justify-center px-10 items-center ">
+            <div className="border-2 border-gray-200 hover:border-gray-300 hover:font-semibold rounded m-1 w-full flex justify-center px-10 items-center bg-white">
                 <text className="p-2">{props.name}</text>
                 <button onClick={openHandler} className="rounded text-blue-500 hover:bg-blue-500 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

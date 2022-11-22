@@ -25,8 +25,8 @@ function DeleteModal(props){
                     <div className="mx-2">Description</div>
                     <text className="block p-1 mx-1 mt-1 mb-3 border rounded w-full text-left mx-2">{props.task.description}</text>
                 </div>
-                <button onClick={onCancelHandler} className="inline-block p-2 m-2 border rounded border-red-700 text-red-500 hover:bg-red-500 hover:text-white">Cancel</button>
-                <button onClick={onConfirmHandler} className="inline-block p-2 m-2 border rounded border-gray-700 text-gray-700 hover:border-white hover:bg-blue-500 hover:text-white">Confirm</button>
+                <button onClick={onCancelHandler} className="inline-block p-2 m-2 border rounded border-gray-700 text-gray-700 hover:border-white hover:bg-blue-500 hover:text-white">Cancel</button>
+                <button onClick={onConfirmHandler} className="inline-block p-2 m-2 border rounded border-red-700 text-red-500 hover:bg-red-500 hover:text-white">Confirm</button>
             </div>
         </div>
     )

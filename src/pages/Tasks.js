@@ -8,32 +8,32 @@ import DeleteModal from "../components/crudOperations/DeleteModal";
 
 function TasksPage(){
 
-    const DUMMY_DATA = [
-        {
-            id: 1,
-            name: "practice data structures",
-            description: "solve leetcode question on data structures",
-            status: "backlog"
-        },
-        {
-            id: 2,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "completed"
-        },
-        {
-            id: 3,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "progress"
-        },
-        {
-            id: 4,
-            name: "practice algorithims",
-            description: "solve leetcode question on algorithms",
-            status: "today"
-        }
-    ]
+    // const DUMMY_DATA = [
+    //     {
+    //         id: 1,
+    //         name: "practice data structures",
+    //         description: "solve leetcode question on data structures",
+    //         status: "backlog"
+    //     },
+    //     {
+    //         id: 2,
+    //         name: "practice algorithims",
+    //         description: "solve leetcode question on algorithms",
+    //         status: "completed"
+    //     },
+    //     {
+    //         id: 3,
+    //         name: "practice algorithims",
+    //         description: "solve leetcode question on algorithms",
+    //         status: "progress"
+    //     },
+    //     {
+    //         id: 4,
+    //         name: "practice algorithims",
+    //         description: "solve leetcode question on algorithms",
+    //         status: "today"
+    //     }
+    // ]
 
     //const [isLoading, setIsLoading] = useState(true);
     const [loadedTasks, setLoadedTasks] = useState([]);
@@ -42,6 +42,7 @@ function TasksPage(){
     const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
 
     const [currentTask, setCurrentTask] = useState({});
+
 
     const BACKLOG_TASKS = [];
     const TODAYS_TASKS = [];
@@ -74,6 +75,24 @@ function TasksPage(){
 
     function closeDeleteModalHandler(){
         setDeleteModalIsOpen(false);
+    }
+
+    function forwardIdHandler(task){
+        console.log("forward props succesful", task);
+
+        var sendTo = task.status;
+
+        if(task.status === 'backlog'){
+            sendTo = 'today';
+        } else if (task.status === 'today'){
+            sendTo = 'progress';
+        } else if (task.status === 'progress'){
+            sendTo = 'completed';
+        }
+        
+        axiosInstance.put(`/tasks/${task.id}.json`, {...task, status: sendTo}).then((response) => {console.log(response)});
+
+        setChangeConfirmed(true);
     }
 
 
@@ -128,7 +147,7 @@ function TasksPage(){
     }
 
     sortTasks(loadedTasks);
-    sortTasks(DUMMY_DATA);
+    // sortTasks(DUMMY_DATA);
 
 
 
@@ -145,33 +164,42 @@ function TasksPage(){
                         <div className='sticky top-0 mb-2 bg-white'>
                             <text>Today's Tasks</text>
                         </div>
-                        <TaskList tasks={TODAYS_TASKS} />
+                        <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
+                             <TaskList tasks={TODAYS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                        </div>
                     </div>
                     <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
                         <div className='sticky top-0 mb-2 bg-white'>
                             <text>In Progress</text>
                         </div>
-                        <TaskList tasks={PROGRESS_TASKS} />
+                        <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
+                            <TaskList tasks={PROGRESS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                        </div>
                     </div>
-                    <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
+                    <div className="border rounded text-center m-2 bg-white shadow">
                         <div className='sticky top-0 mb-2 bg-white'>
                             <text>Completed</text>
                         </div>
-                        <TaskList tasks={COMPLETED_TASKS} />
+                        <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
+                            <TaskList tasks={COMPLETED_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                        </div>
                     </div>
                 </div>
                 <div className='grid-cols-1 h-[30%]'>
                     <div className="border rounded h-full m-2 bg-white shadow overflow-auto">
-                        <div className='sticky top-0 mb-2 bg-white'>
+                        <div className='sticky top-0 mb-1 bg-white'>
                             <text className=''>Backlog</text>
-                            <button className="absolute right-2 m-1 border rounded hover:bg-[#778DA9] hover:text-white" onClick={openModalHandler}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+                            <button className="absolute right-2 m-1 border rounded hover:bg-blue-500 hover:text-white" onClick={openModalHandler}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
                                 </svg>
+
+
                             </button>
                         </div>
-                        <BacklogList tasks={BACKLOG_TASKS} openDeleteModal={openDeleteModalHandler}/>
-                        
+                        <div className="h-[80%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
+                        <BacklogList tasks={BACKLOG_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                        </div>
                     </div>
                     
                 </div>
