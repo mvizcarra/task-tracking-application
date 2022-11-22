@@ -153,12 +153,7 @@ function TasksPage(){
 
     return ( 
     
-
-    
     <div className="h-full pt-2 text-center px-20 relative"> 
-
-         
-            
                 <div className='grid grid-cols-3 h-[60%] mt-4'>
                     <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
                         <div className='sticky top-0 mb-2 bg-white'>
