@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import NewTaskModal from "../components/crudOperations/NewTaskModal";
-import TaskList from '../components/displayLists/TaskList';
 import BacklogList from '../components/displayLists/BacklogList';
 import axiosInstance from "../axios";
 import Backdrop from "../components/layout/Backdrop";
@@ -160,7 +159,7 @@ function TasksPage(){
                             <text>Today's Tasks</text>
                         </div>
                         <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
-                             <TaskList tasks={TODAYS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                             <BacklogList tasks={TODAYS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
                         </div>
                     </div>
                     <div className="border rounded text-center m-2 bg-white shadow overflow-auto">
@@ -168,7 +167,7 @@ function TasksPage(){
                             <text>In Progress</text>
                         </div>
                         <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
-                            <TaskList tasks={PROGRESS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                            <BacklogList tasks={PROGRESS_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
                         </div>
                     </div>
                     <div className="border rounded text-center m-2 bg-white shadow">
@@ -176,7 +175,7 @@ function TasksPage(){
                             <text>Completed</text>
                         </div>
                         <div className="h-[90%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
-                            <TaskList tasks={COMPLETED_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                            <BacklogList tasks={COMPLETED_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
                         </div>
                     </div>
                 </div>
@@ -193,7 +192,7 @@ function TasksPage(){
                             </button>
                         </div>
                         <div className="h-[80%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">
-                        <BacklogList tasks={BACKLOG_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
+                            <BacklogList tasks={BACKLOG_TASKS} openDeleteModal={openDeleteModalHandler} forwardId={forwardIdHandler}/>
                         </div>
                     </div>
                     
