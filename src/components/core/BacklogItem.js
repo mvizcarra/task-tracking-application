@@ -1,14 +1,10 @@
 import { useState } from "react";
+import ForwardButton from "./ForwardButton";
 import RevertButton from "./RevertButton";
 
 function BacklogItem(props) {
 
     const [descriptionIsOpen, setDescriptionIsOpen] = useState(false);
-
-    function forwardHandler(){
-        console.log("forward handler hit", props.id);
-        props.forwardId(props);
-    }
 
     function deleteButtonHandler(){
         console.log("trash handler hit", props.id)
@@ -31,7 +27,7 @@ function BacklogItem(props) {
                     
                 <div className="flex justify-between items-center">
                             
-                            <text className="p-2">{props.name}</text>
+                            <div className="p-2">{props.name}</div>
                             
                             <div className="flex">
                                 <button onClick={openHandler} className="rounded text-blue-500 hover:bg-blue-500 hover:text-white">
@@ -43,11 +39,12 @@ function BacklogItem(props) {
                                     <RevertButton id={props.id} status={props.status} task={props.task} onChange={confirmChangeHandler}/>
                                 )}
                                 {props.status !== 'completed' && (
-                                    <button onClick={forwardHandler} className="rounded text-green-500 hover:bg-green-500 hover:text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
-                                        </svg>
-                                    </button>
+                                    <ForwardButton id={props.id} status={props.status} task={props.task} onChange={confirmChangeHandler}/>
+                                    // <button onClick={forwardHandler} className="rounded text-green-500 hover:bg-green-500 hover:text-white">
+                                    //     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    //     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+                                    //     </svg>
+                                    // </button>
                                 )}
                                 <button onClick={deleteButtonHandler} className="rounded text-red-500 hover:bg-red-500 hover:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
