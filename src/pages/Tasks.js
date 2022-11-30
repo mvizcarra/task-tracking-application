@@ -76,26 +76,6 @@ function TasksPage(){
         setDeleteModalIsOpen(false);
     }
 
-    // function forwardIdHandler(task){
-    //     console.log("forward props succesful", task);
-
-    //     var sendTo = task.status;
-
-    //     if(task.status === 'backlog'){
-    //         sendTo = 'today';
-    //     } else if (task.status === 'today'){
-    //         sendTo = 'progress';
-    //     } else if (task.status === 'progress'){
-    //         sendTo = 'completed';
-    //     }
-        
-    //     axiosInstance.put(`/tasks/${task.id}.json`, {...task, status: sendTo}).then((response) => {console.log(response)});
-
-    //     setChangeConfirmed(true);
-    // }
-
-
-
     useEffect(() => {
         //setIsLoading(true);
         axiosInstance.get('/tasks.json')
@@ -183,12 +163,10 @@ function TasksPage(){
                     <div className="border rounded h-full m-2 bg-white shadow overflow-auto">
                         <div className='sticky top-0 mb-1 bg-white'>
                             <div>Backlog</div>
-                            <button className="absolute right-2 m-1 border rounded hover:bg-blue-500 hover:text-white" onClick={openModalHandler}>
+                            <button className="absolute top-0 right-2 m-1 border rounded hover:bg-blue-500 hover:text-white" onClick={openModalHandler}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
                                 </svg>
-
-
                             </button>
                         </div>
                         <div className="h-[80%] bg-gray-100 rounded mt-2 mx-2 overflow-auto pb-0">

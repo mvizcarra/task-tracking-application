@@ -22,7 +22,7 @@ function NewTaskModal(props){
             status: "backlog"
         }
 
-        props.onConfirm();
+        
         console.log(TASK_DATA);
 
         axiosInstance.post('/tasks.json', TASK_DATA)
@@ -32,6 +32,8 @@ function NewTaskModal(props){
           .catch(function (error) {
             console.log(error);
           });
+
+          props.onConfirm();
     }
  
     return (
